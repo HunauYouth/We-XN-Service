@@ -2,7 +2,7 @@
 lock "3.7.1"
 
 set :application, "xnqn_service_pro"
-set :repo_url, "git@github.com:iiewad/xnqn_service.git"
+set :repo_url, "git@github.com:HunauYouth/We-XN-Service.git"
 
 # Default branch is :master
 ask :branch, :master
