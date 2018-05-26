@@ -4,13 +4,8 @@ class Api::V1::GradeController < Api::BaseController
   def index
     stuNumber = params["stuNumber"]
     stuCardCode = params["stuCardCode"]
-    @stuGrades = StuGrade.where(xh: stuNumber)
-    if @stuGrades.empty?
-      @stuGrades = handle_grade(stuCardCode)
-      @stuGrades = @stuGrades.group_by(&:xn)
-    else
-      @stuGrades = @stuGrades.group_by(&:xn)
-    end
+    @stuGrades = handle_grade(stuCardCode)
+    @stuGrades = StuGrade.where(xh: stuNumber).group_by(&:xn)
     render :json => {
       status: 'success',
       message: '请求成功',

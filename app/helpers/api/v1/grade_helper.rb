@@ -26,12 +26,12 @@ module Api::V1::GradeHelper
 
   def handle_grade(userId)
     strGrades = request_hunau_api_get_stuGrades(userId)
-    strGrades.gsub!('loadCJ_JsonpCallback(', '').chop!
+    strGrades = strGrades.gsub!('loadCJ_JsonpCallback(', '').chop!
     strGrades = JSON.parse(strGrades)
 
     if strGrades["Status"].to_i == 1
       strGrades["rList"].each do |grades|
-        StuGrade.create!(xn: grades["XN"],
+        StuGrade.find_or_create_by!(xn: grades["XN"],
                          xq: grades["XQ"],
                          xh: grades["XH"],
                          xm: grades["XM"],
