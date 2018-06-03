@@ -19,6 +19,7 @@ hunauapi:
   get_brows: '/GetBrows'
   get_loss: '/GetReport'
   get_borrow: '/WSGetWjCx'
+  get_today_borrows: '/GetTodayBrows'
 
 wechatapi:
   service_host: 'https://api.weixin.qq.com/sns/jscode2session?'

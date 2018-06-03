@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         get 'get_term', to: 'get_timetable#get_term'
         get 'get_timetable', to: 'get_timetable#get_timetable'
         get 'get_brows', to: 'get_brows#index'
+        get 'today_brows', to: 'get_brows#today_brows'
         get 'loss', to: 'get_brows#loss'
         get 'get_borrow', to: 'borrow_book#index'
         resources :feedback
