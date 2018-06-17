@@ -29,6 +29,7 @@ class Api::V1::BindStuUserController < Api::BaseController
       if login_status.zero?
         render :json => {
           status: 'failed',
+          message: '绑定失败',
           message_detail: login_info["Msg"]
         }
       else
