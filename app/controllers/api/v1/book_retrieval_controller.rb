@@ -43,7 +43,6 @@ class Api::V1::BookRetrievalController < ApplicationController
       z4: 11,
       z5: ''
     }
-
     url = URI(Settings.FindBook.service_host + Settings.FindBook.book_search_path)
     result = request_zhaobenshu(url, search_params)
 
