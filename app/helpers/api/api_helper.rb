@@ -1,4 +1,16 @@
 module Api::ApiHelper
+  def base64_2_utf8_helper(item)
+    Base64.decode64(item).force_encoding('utf-8')
+  end
+
+  def request_zhaobenshu(url, params)
+    url.query = URI.encode_www_form(params)
+    http = Net::HTTP.new(url.host, url.port)
+    request = Net::HTTP::Get.new(url)
+    response = http.request(request)
+    eval(response.read_body)
+  end
+
   def request_wechat_login_api(js_code)
     params = {
       appid: ENV['WECHAT_APPID'],

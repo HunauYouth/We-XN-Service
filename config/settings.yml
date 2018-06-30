@@ -25,3 +25,11 @@ wechatapi:
   service_host: 'https://api.weixin.qq.com/sns/jscode2session?'
   grant_type: 'authorization_code'
 
+FindBook:
+  service_host: 'http://59.41.253.10:7781'
+  hot_keys_path: '/Logs/stvisitkey_ifa_GetList.ashx'
+  book_search_path: '/Find/find_ifa_FindFullPage.ashx'
+  book_detail_path: '/Find/find_ifa_GetDetail.ashx'
+  book_lib_coll_path: '/Find/find_ifa_GetOpacColl2.aspx'
+  book_lib_site_path: '/Find/find_ifa_GetSiteColl.aspx'
+

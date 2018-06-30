@@ -25,6 +25,11 @@ Rails.application.routes.draw do
         get 'get_borrow', to: 'borrow_book#index'
         resources :feedback
         post 'bind-room', to: 'stu_user#bind_room'
+        get 'hot-keys', to: 'book_retrieval#hot_keys'
+        get 'book-search', to: 'book_retrieval#book_search'
+        get 'book-detail', to: 'book_retrieval#book_detail'
+        get 'book-collection', to: 'book_retrieval#lib_collection'
+        get 'book-site', to: 'book_retrieval#lib_site'
       end
     end
   end
