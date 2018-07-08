@@ -21,7 +21,7 @@ Rails.application.routes.draw do
         get 'get_timetable', to: 'get_timetable#get_timetable'
         get 'get_brows', to: 'get_brows#index'
         get 'today_brows', to: 'get_brows#today_brows'
-        get 'loss', to: 'get_brows#loss'
+        #get 'loss', to: 'get_brows#loss'
         get 'get_borrow', to: 'borrow_book#index'
         resources :feedback
         post 'bind-room', to: 'stu_user#bind_room'
@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         get 'book-detail', to: 'book_retrieval#book_detail'
         get 'book-collection', to: 'book_retrieval#lib_collection'
         get 'book-site', to: 'book_retrieval#lib_site'
+        resources :notices, only: [:index]
       end
     end
   end
