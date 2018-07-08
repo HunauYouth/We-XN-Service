@@ -8,51 +8,48 @@ class Api::V1::BindStuUserController < Api::BaseController
   def index
     user = StuUser.find_by(schno: private_params["stu_number"])
     if user
-      # self.current_user = user
-      if user.wechat_open_id.nil?
+      if user.wechat_open_id.nil? && params['code'].present?
         wechat_user_flag = JSON.parse(request_wechat_login_api(params['code']))
         user.update_columns(wechat_open_id: wechat_user_flag["openid"],
                             authentication_token: wechat_user_flag["openid"] + wechat_user_flag["session_key"])
       end
       render :json => {
-        status: 'success',
+        status: 200,
         message: '绑定成功',
-        data: user
+        data: user.as_json
       }
     else
-      res = request_hunau_api_login(private_params["stu_number"],
-                                    private_params["stu_password"])
-      login_info_xml = Nokogiri::XML res
-      login_info = JSON.parse(login_info_xml.child.child.to_s)
+      res = request_hunau_api_login(private_params["stu_number"], private_params["stu_password"])
+      login_flag = res["status"]
 
-      login_status = login_info["status"].to_i
-      if login_status.zero?
+      if login_flag.to_i.zero?
         render :json => {
-          status: 'failed',
+          status: 400,
           message: '绑定失败',
-          message_detail: login_info["Msg"]
+          message_detail: res["msg"]
         }
       else
-        wechat_user_flag = JSON.parse(request_wechat_login_api(params['code']))
-        wechat_user_flag = "" if wechat_user_flag["errcode"].present?
+        if params['code'].present?
+          wechat_user_flag = JSON.parse(request_wechat_login_api(params['code']))
+          wechat_open_id = wechat_user_flag["openid"]
+          authentication_token = wechat_user_flag["openid"] + wechat_user_flag["session_key"]
+        end
 
-        user_info = login_info["Userinfo"]
-        user_info = user_info.map { |k, v| [k.downcase, v] }.to_h
-        user_info["user_type"] = user_info["type"]
-        user_info.delete_if { |k, v| k == "type" }
-        user_info["wechat_open_id"] = wechat_user_flag["openid"]
-        user_info["authentication_token"] = wechat_user_flag["openid"] + wechat_user_flag["session_key"]
+        user_info = res["userinfo"].transform_keys!(&:downcase)
+        user_info['user_type'] = user_info.delete('type')
+        user_info["wechat_open_id"] = wechat_open_id || nil
+        user_info["authentication_token"] = authentication_token || nil
         user = StuUser.new(user_info)
 
         if user.save
           render :json => {
-            status: 'success',
+            status: 200,
             message: '绑定成功',
-            data: user
+            data: user.as_json
           }
         else
           render :json => {
-            status: 'failed',
+            status: 400,
             message: '绑定失败',
             errors: user.errors.messages
           }

@@ -1,4 +1,7 @@
 module Api::ApiHelper
+  require 'rexml/document'
+  include REXML
+
   def base64_2_utf8_helper(item)
     Base64.decode64(item).force_encoding('utf-8')
   end
@@ -51,6 +54,12 @@ module Api::ApiHelper
 
     res = Net::HTTP.get_response(uri)
     res.body if res.is_a?(Net::HTTPSuccess)
+
+    xmlstr = res.body
+    xmlres = Document.new(xmlstr)
+    root = xmlres.root
+    hash = JSON.parse(root.get_text.to_s)
+    hash.transform_keys!(&:downcase)
   end
 
   def render_error_code(errors = {})

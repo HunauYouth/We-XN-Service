@@ -4,19 +4,16 @@ class Api::V1::WxLoginController < ApplicationController
   def index
     wx_login_res = JSON.parse(request_wechat_login_api(params['code']))
     stu_user = StuUser.find_by(wechat_open_id: wx_login_res["openid"])
-    if stu_user.nil?
+    if stu_user
       render :json => {
-        status: 'failed',
-        message: '登录失败, 未查询到绑定信息'
+        status: 200,
+        message: '请求成功',
+        data: stu_user.as_json
       }
     else
-      # sessionid = SecureRandom.base64(64)
-      # redis = Redis.new
-      # redis.set(sessionid, wx_login_res["openid"] + wx_login_res["session_key"], ex: 7200)
       render :json => {
-        status: 'success',
-        message: '请求成功',
-        data: stu_user
+        status: 400,
+        message: '登录失败, 未查询到绑定信息'
       }
     end
   end

@@ -18,4 +18,17 @@ class StuUser < ApplicationRecord
     save
   end
 
+  def as_json( options = {} )
+    {
+      cardcode: cardcode,
+      name: name,
+      schno: schno,
+      grade: grade,
+      college: college,
+      collegename: collegename,
+      wechat_open_id: wechat_open_id,
+      authentication_token: authentication_token,
+      dorm: dorm
+    }
+  end
 end
