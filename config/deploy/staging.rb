@@ -3,6 +3,8 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
+server '54.65.139.184:22', user: 'ubuntu', roles: %w(app db web)
+
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
@@ -30,6 +32,13 @@
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
+set :application, "xnqn_service_staging"
+set :deploy_to, "/home/ubuntu/www/xnqn_service_staging"
+
+set :puma_bind,       "unix://#{shared_path}/tmp/sockets/puma_xnqn_service_staging.sock"
+set :puma_state,      "#{shared_path}/tmp/pids/puma_xnqn_service_staging.state"
+set :puma_pid,        "#{shared_path}/tmp/pids/puma_xnqn_service_staging.pid"
+set :puma_conf,       "#{shared_path}/config/puma.rb"
 
 
 
@@ -52,6 +61,13 @@
 # server "example.com",
 #   user: "user_name",
 #   roles: %w{web app},
+
+set :ssh_options, {
+  keys: %w(~/.ssh/id_rsa),
+  forward_agent: true,
+  auth_methods: %w(publickey password)
+}
+
 #   ssh_options: {
 #     user: "user_name", # overrides user setting above
 #     keys: %w(/home/user_name/.ssh/id_rsa),

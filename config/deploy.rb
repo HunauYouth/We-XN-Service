@@ -1,7 +1,6 @@
 # config valid only for current version of Capistrano
 lock "3.7.1"
 
-set :application, "xnqn_service_pro"
 set :repo_url, "git@github.com:HunauYouth/We-XN-Service.git"
 
 # Default branch is :master
@@ -10,7 +9,6 @@ ask :branch, :master
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
-set :deploy_to, "/home/deployer/www/xnqn_service_pro"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -44,6 +42,13 @@ set :rvm_ruby_version, 'default'
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 namespace :deploy do
+  desc 'Start the application'
+  task :start do
+    on roles(:app) do
+      execute "cd #{deploy_to}/current && #{fetch(:rvm_binary)} #{fetch(:rvm_ruby_version)} do pumactl -S #{shared_path}/tmp/pids/puma.state start"
+    end
+  end
+
   desc 'Restart the application'
   task :restart do
     on roles(:app) do
@@ -60,4 +65,3 @@ namespace :deploy do
 end
 
 after 'deploy', 'deploy:restart'
-

@@ -33,6 +33,8 @@ server '118.24.154.240:8868', user: 'deployer', roles: %w(app db web)
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
+set :application, "xnqn_service_pro"
+set :deploy_to, "/home/deployer/www/xnqn_service_pro"
 
 
 # Custom SSH Options
