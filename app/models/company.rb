@@ -1,3 +1,3 @@
 class Company < ApplicationRecord
-  has_many :departments, foreign_key: 'comid'
+  has_many :departments, primary_key: 'code', foreign_key: 'comid'
 end
