@@ -31,6 +31,7 @@ Rails.application.routes.draw do
         get 'book-collection', to: 'book_retrieval#lib_collection'
         get 'book-site', to: 'book_retrieval#lib_site'
         resources :notices, only: [:index]
+        resources :officephone, only: [:index, :show]
       end
     end
   end

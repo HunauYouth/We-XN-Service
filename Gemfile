@@ -25,6 +25,8 @@ gem 'activeadmin'
 gem 'active_admin_flat_skin'
 gem "font-awesome-rails"
 
+gem 'rails-i18n', '~> 5.1' # For 5.0.x, 5.1.x and 5.2.x
+
 # Plus integrations with:
 gem 'devise'
 gem 'cancancan'
