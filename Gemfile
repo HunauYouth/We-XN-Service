@@ -41,6 +41,7 @@ gem 'redis-namespace', '~> 1.5.2'
 gem 'redis-rails', github: 'redis-store/redis-rails'
 
 group :development, :test do
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
