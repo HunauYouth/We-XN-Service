@@ -20,6 +20,10 @@ class Api::V1::LostAndFoundController < ApplicationController
 
   private
     def l_f_params
-      params.require(:data).permit(:stu_user_id, :name, :describe, :pic, :category, :status)
+      l_f_params = params.require(:l_f_p).permit(:stu_user_id, :name, :describe, :images, :category, :status)
+      l_f_params[:stu_user_id] = l_f_params[:stu_user_id].to_i
+      l_f_params[:category] = l_f_params[:category].to_i
+      l_f_params[:status] = l_f_params[:status].to_i
+      l_f_params
     end
 end

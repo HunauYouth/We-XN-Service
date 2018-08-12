@@ -40,6 +40,12 @@ gem 'redis', '~> 3.0'
 gem 'redis-namespace', '~> 1.5.2'
 gem 'redis-rails', github: 'redis-store/redis-rails'
 
+gem 'carrierwave', '~> 1.0'
+gem "mini_magick"
+gem 'carrierwave-qiniu', '~> 1.1.5'
+# If you need to use locales other than English
+gem 'carrierwave-i18n'
+
 group :development, :test do
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

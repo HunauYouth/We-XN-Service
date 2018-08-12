@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20180812053724) do
     t.string "name"
     t.integer "stu_user_id"
     t.string "describe"
-    t.string "pic"
+    t.json "images"
     t.integer "category"
     t.integer "status"
     t.datetime "created_at", null: false
