@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180723134236) do
+ActiveRecord::Schema.define(version: 20180812053724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,17 @@ ActiveRecord::Schema.define(version: 20180723134236) do
     t.string "title"
     t.string "content"
     t.integer "stu_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lost_and_founds", force: :cascade do |t|
+    t.string "name"
+    t.integer "stu_user_id"
+    t.string "describe"
+    t.string "pic"
+    t.integer "category"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

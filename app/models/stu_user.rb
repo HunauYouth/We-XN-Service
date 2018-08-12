@@ -1,5 +1,6 @@
 class StuUser < ApplicationRecord
   has_many :feedbacks
+  has_many :lost_and_founds
 
   validates :cardcode, :schno, presence: true,
                                uniqueness: true
