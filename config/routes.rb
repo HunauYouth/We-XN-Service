@@ -33,6 +33,7 @@ Rails.application.routes.draw do
         resources :notices, only: [:index]
         resources :officephone, only: [:index, :show]
         get 'faqs', to: 'faq#index'
+        resources :lost_and_found
       end
     end
   end
