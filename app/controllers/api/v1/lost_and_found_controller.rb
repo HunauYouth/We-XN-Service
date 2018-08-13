@@ -24,6 +24,7 @@ class Api::V1::LostAndFoundController < ApplicationController
       l_f_params[:stu_user_id] = l_f_params[:stu_user_id].to_i
       l_f_params[:category] = l_f_params[:category].to_i
       l_f_params[:status] = l_f_params[:status].to_i
+      l_f_params[:images] = params.require(:file)
       l_f_params
     end
 end
