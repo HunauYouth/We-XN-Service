@@ -21,6 +21,7 @@ class StuUser < ApplicationRecord
 
   def as_json( options = {} )
     {
+      id: id,
       cardcode: cardcode,
       name: name,
       schno: schno,

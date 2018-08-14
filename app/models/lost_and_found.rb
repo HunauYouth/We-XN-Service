@@ -4,4 +4,12 @@ class LostAndFound < ApplicationRecord
   enum category: [:lost, :found]
 
   mount_uploader :images, LostAndFoundUploader
+
+  DEFAULT_PER = 10
+  paginates_per DEFAULT_PER
+
+  validates :title, :describe, :category, :tel, presence: true
+  validates :title, length: { maximum: 30 }
+  validates :describe, length: { maximum: 200 }
+  validates :tel, format: { with: /\d{11}|\d+-\d+-\d+/ }
 end
