@@ -41,6 +41,22 @@ class Api::V1::LostAndFoundController < ApplicationController
     end
   end
 
+  def show
+    lost_or_found = LostAndFound.find(params[:id])
+    if lost_or_found.present?
+      render :json => {
+        status: 200,
+        message: 'success',
+        data: lost_or_found
+      }
+    else
+      render :json => {
+        status: 400,
+        message: 'faild'
+      }
+    end
+  end
+
   private
     def l_f_params
       l_f_params = params.require(:l_f_p).permit(:stu_user_id, :title, :describe, :images, :category, :tel, :status)
