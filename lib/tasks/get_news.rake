@@ -8,7 +8,7 @@ namespace :get_news do
     counter = 0
     235.times do
       pages = { index: counter, size: 20 }
-      news_list = request_hunau_api_get_news_list(pages)
+      news_list = request_hunau_api_get_news_list(pages, 5)
       handle_news_list(news_list)
       get_news_content
       counter += 1
@@ -21,13 +21,41 @@ namespace :get_news do
   desc 'Get Newest News'
   task get_newest_news: :environment do
     pages = { index: 0, size: 10 }
-    news_list = request_hunau_api_get_news_list(pages)
+    news_list = request_hunau_api_get_news_list(pages, 5)
     handle_news_list(news_list)
     get_news_content
     puts '*'
   end
 
-  def request_hunau_api_get_news_list(pages)
+  desc '后勤通知'
+  task get_support_notice: :environment do
+    page = { index: 0, size: 10 }
+    support_notices = request_hunau_api_get_news_list(page, 48)
+    xml_doc = Nokogiri::XML(support_notices)
+    news = xml_doc.xpath('//new')
+
+    news.each do |n|
+      news_id = n.xpath('id').text()
+      News.find_or_create_by!(news_id: news_id,
+                              title: n.xpath('Title').text(),
+                              summary: n.xpath('summary').text(),
+                              addtime: n.xpath('addtime').text(),
+                              pic_path: URI.unescape(n.xpath('Pic').text()),
+                              big_pic_path: URI.unescape(n.xpath('bigPic').text()),
+                              category: 1
+                             )
+    end
+    get_news_content
+  end
+
+  desc '初始化原新闻分类'
+  task init_news_category: :environment do
+    News.where.not(category: 1).find_in_batches do |news|
+      news.each { |n| n.update_columns(category: 0) }
+    end
+  end
+
+  def request_hunau_api_get_news_list(pages, type = 5)
     uri_str = Settings.hunauapi.service_host +
       Settings.hunauapi.service_endpoint +
       Settings.hunauapi.get_news_path
@@ -36,7 +64,7 @@ namespace :get_news do
                id: ENV['HUNAU_API_PARAMS_NEWS_ID'],
                vid: ENV['HUNAU_API_PARAMS_VID'],
                Access_Token: ENV['HUNAU_API_PARAMS_AK'],
-               type: 5,
+               type: type,
                pageindex: pages[:index],
                pagesize: pages[:size] }
 
@@ -55,7 +83,7 @@ namespace :get_news do
                       isuser: e.xpath('IsUser').children.text.strip,
                       summary: e.xpath('summary').children.text.strip,
                       addtime: e.xpath('addtime').children.text.strip,
-                      comment_count: e.xpath('CommentCount').children.text.strip,
+                      category: 0,
                       pic_path: URI::decode(e.xpath('Pic').children.text.strip),
                       big_pic_path: URI::decode(e.xpath('bigPic').children.text.strip) )
       if news.save

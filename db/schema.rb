@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180814053308) do
+ActiveRecord::Schema.define(version: 20180821094201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(version: 20180814053308) do
     t.string "isuser"
     t.string "summary"
     t.string "addtime"
-    t.integer "comment_count"
+    t.integer "category"
     t.string "pic_path"
     t.string "big_pic_path"
     t.text "content"

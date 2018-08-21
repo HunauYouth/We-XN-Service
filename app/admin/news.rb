@@ -16,6 +16,7 @@ ActiveAdmin.register News do
   filter :summary
   filter :content
   filter :addtime
+  filter :category, as: :select
 
   index do
     selectable_column
