@@ -4,7 +4,7 @@ class Api::V1::NewsController < Api::BaseController
 
     if params['category'] == 'general'
       @news = @news.general
-    elsif params['category'] == 'support_notice'
+    elsif params['category'] == 'support'
       @news = @news.support_notice
     end
     @news = @news.page(params['page']).per(params['per'])

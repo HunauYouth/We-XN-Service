@@ -11,6 +11,8 @@ ActiveAdmin.register News do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
+  scope :general, group: :category
+  scope :support_notice, group: :category
 
   filter :title
   filter :summary
