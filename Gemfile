@@ -32,6 +32,8 @@ gem 'pundit'
 gem 'bcrypt'
 gem 'kaminari'
 
+gem 'watir', '~> 6.12'
+
 gem "figaro"
 gem 'listen', '>= 3.0.5', '< 3.2'
 gem 'whenever', require: false

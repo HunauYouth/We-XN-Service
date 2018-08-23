@@ -13,6 +13,7 @@ ActiveAdmin.register News do
 # end
   scope :general, group: :category
   scope :support_notice, group: :category
+  scope :xshd, group: :category
 
   filter :title
   filter :summary
