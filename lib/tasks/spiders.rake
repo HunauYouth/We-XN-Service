@@ -8,7 +8,9 @@ namespace :spiders do
   end
 
   def get_lists(url)
-    browser = Watir::Browser.start url
+    browser = Watir::Browser.new :chrome, headless: true
+    browser.goto url
+    #browser = Watir::Browser.start url
     xshd_list_x_path = '/html/body/div/div[5]/div[2]/div[2]/div/div[2]/ul/li'
     next_page_x_path = '//*[@id="fenye"]/table/tbody/tr/td/a[@class="next"]'
 
