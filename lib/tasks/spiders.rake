@@ -1,13 +1,19 @@
 namespace :spiders do
   require 'watir'
 
-  desc 'Spider => 学术活动'
+  desc 'Spider => 抓取所有学术活动'
   task get_xshd: :environment do
     @start_url = "http://www.hunau.edu.cn/xshd/"
-    get_lists(@start_url)
+    get_lists(@start_url, 'get_all')
   end
 
-  def get_lists(url)
+  desc 'Spider => 更新学术活动'
+  task update_xshd: :environment do
+    @start_url = "http://www.hunau.edu.cn/xshd/"
+    get_lists(@start_url, 'update')
+  end
+
+  def get_lists(url, mode = 'update')
     browser = Watir::Browser.new :chrome, headless: true
     browser.goto url
     #browser = Watir::Browser.start url
@@ -31,8 +37,8 @@ namespace :spiders do
     puts next_page_url
     puts '#' * 123
 
-    if next_page_url.present? && next_page_text == '下一页'
-      get_lists(next_page_url)
+    if next_page_url.present? && next_page_text == '下一页' && mode == 'get_all'
+      get_lists(next_page_url, 'get_all')
     else
       p '*' * 123
     end

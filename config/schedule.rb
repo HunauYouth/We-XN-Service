@@ -22,4 +22,5 @@
 every 1.hours do
   rake 'get_news:get_newest_news'
   rake 'get_news:get_support_notice'
+  rake 'spiders:update_xshd'
 end
