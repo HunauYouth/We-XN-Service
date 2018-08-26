@@ -36,10 +36,10 @@ namespace :get_news do
 
     news.each do |n|
       news_id = n.xpath('id').text()
-      News.find_or_create_by!(news_id: news_id,
+      News.find_or_create_by(news_id: news_id,
                               title: n.xpath('Title').text(),
                               summary: n.xpath('summary').text(),
-                              addtime: n.xpath('addtime').text(),
+                              addtime: Time.parse(n.xpath('addtime').text()).to_i,
                               pic_path: URI.unescape(n.xpath('Pic').text()),
                               big_pic_path: URI.unescape(n.xpath('bigPic').text()),
                               category: 1
@@ -52,6 +52,16 @@ namespace :get_news do
   task init_news_category: :environment do
     News.where.not(category: 1).find_in_batches do |news|
       news.each { |n| n.update_columns(category: 0) }
+    end
+  end
+
+  desc 'addtime字段转为时间戳'
+  task convert_addtime_to_timestamp: :environment do
+    News.all.find_in_batches do |news|
+      news.each do |n|
+        next unless n.addtime.include?('/')
+        n.update_columns( addtime: Time.parse(n.addtime).to_i )
+      end
     end
   end
 
@@ -82,7 +92,7 @@ namespace :get_news do
                       title: e.xpath('Title').children.text.strip,
                       isuser: e.xpath('IsUser').children.text.strip,
                       summary: e.xpath('summary').children.text.strip,
-                      addtime: e.xpath('addtime').children.text.strip,
+                      addtime: Time.parse(e.xpath('addtime').children.text.strip).to_i,
                       category: 0,
                       pic_path: URI::decode(e.xpath('Pic').children.text.strip),
                       big_pic_path: URI::decode(e.xpath('bigPic').children.text.strip) )

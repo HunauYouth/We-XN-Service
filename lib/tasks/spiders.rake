@@ -1,5 +1,4 @@
 namespace :spiders do
-  require 'watir'
 
   desc 'Spider => 抓取所有学术活动'
   task get_xshd: :environment do
@@ -48,7 +47,7 @@ namespace :spiders do
     doc = Nokogiri::HTML(open(url))
     item = doc.xpath('//div[@class="about_detail"]')
     title = item.xpath('h2').text()
-    date = item.xpath('div[@class="details-con"]/div[@class="details_info"]').text().gsub('时间:', '').strip
+    date = Time.parse(item.xpath('div[@class="details-con"]/div[@class="details_info"]').text().gsub('时间:', '').strip).to_i
     content = item.xpath('div[@class="details-con"]/div[@class="TRS_Editor"]')
     if content.css('div.TRS_Editor> p> img').present?
       uri = URI.parse(url)
