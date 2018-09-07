@@ -17,4 +17,13 @@ class Api::V1::WxLoginController < ApplicationController
       }
     end
   end
+
+  def unbind
+    user = StuUser.find(params[:id])
+    user.update_columns(wechat_open_id: nil, authentication_token: nil)
+    render :json => {
+      status: 200,
+      message: '成功解除绑定'
+    }
+  end
 end

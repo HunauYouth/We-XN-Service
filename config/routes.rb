@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         get 'bind-stu-user', to: 'bind_stu_user#index'
         get 'get-room', to: 'get_room#index'
         get 'wx-login', to: 'wx_login#index'
+        get 'unbind', to: 'wx_login#unbind'
         get 'get-user-info', to: 'wx_login#get_user_info'
         resources :news, only: [:index, :show]
         resources :grade, only: [:index]
