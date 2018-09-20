@@ -12,6 +12,42 @@ namespace :spiders do
     get_lists(@start_url, 'update')
   end
 
+  desc 'Spider => 抓取办公电话'
+  task get_office_tel: :environment do
+    @start_url = "http://www.hunau.edu.cn/ndgk/lxwm/bgdh/201611/t20161114_166812.html"
+    get_tel(@start_url)
+  end
+
+  def get_tel(url)
+    doc = Nokogiri::HTML(open(url))
+
+    tel_element = doc.css('.tel_right_style > div')
+    tel_element.xpath('//br').remove
+    tel_obj = {}
+    c_name = ''
+    tel_element.children.each do |tel_e|
+      if tel_e.node_name == 'a'
+        c_name = tel_e.text()
+        tel_obj[c_name] = {}
+        next
+      end
+      next if tel_e.text() == "\n"
+      str = tel_e.text.strip.gsub('…', '-').split('-')
+      tel_obj[c_name][str.first] = str.last.delete('.')
+    end
+
+    current_company_code = Company.maximum("code")
+    current_dep_id = Department.maximum('depid')
+    tel_obj.each do |k, val|
+      current_company_code += 1
+      Company.find_or_create_by(name: k, code: current_company_code)
+      val.each do |d_k, d_v|
+        current_dep_id += 1
+        Department.find_or_create_by(depname: d_k, depid: current_dep_id, comid: current_company_code, tell: d_v)
+      end
+    end
+  end
+
   def get_lists(url, mode = 'update')
     browser = Watir::Browser.new :chrome, headless: true
     browser.goto url
