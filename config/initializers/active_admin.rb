@@ -204,6 +204,7 @@ ActiveAdmin.setup do |config|
   #
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
+  config.register_javascript 'https://www.gstatic.com/charts/loader.js'
 
   # == CSV options
   #
