@@ -14,4 +14,14 @@ class Api::V1::NoticesController < ApplicationController
       }
     end
   end
+
+  def feed
+    url = params['url']
+    doc = Net::HTTP.get_response(URI.parse(url)).body
+    render :json => {
+      status: 200,
+      message: 'success',
+      data: Hash.from_xml(doc).as_json
+    }
+  end
 end

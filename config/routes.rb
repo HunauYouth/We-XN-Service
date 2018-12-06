@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         get 'book-collection', to: 'book_retrieval#lib_collection'
         get 'book-site', to: 'book_retrieval#lib_site'
         resources :notices, only: [:index]
+        get 'feed', to: 'notices#feed'
         resources :officephone, only: [:index, :show]
         get 'faqs', to: 'faq#index'
         resources :lost_and_found
