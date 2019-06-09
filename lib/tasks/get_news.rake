@@ -109,9 +109,11 @@ namespace :get_news do
       news_content = JSON.parse(request_news_content_api(news.news_id))["RList"]
       content = Hash[*news_content]
       unless content.empty?
-        content = content["Content"].force_encoding 'gbk'
-        content = content.encode
-        news.update_columns(content: content)
+        if content['Content'].encoding.to_s != "UTF-8"
+          content = content["Content"].force_encoding 'utf-8'
+          #content = content.encode
+        end
+        news.update_columns(content: content['Content'])
       end
     end
   end
