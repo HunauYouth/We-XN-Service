@@ -42,7 +42,7 @@ gem 'redis', '~> 3.0'
 gem 'redis-namespace', '~> 1.5.2'
 gem 'redis-rails', github: 'redis-store/redis-rails'
 
-gem 'carrierwave', '~> 1.0'
+gem 'carrierwave', '~> 1.3'
 gem "mini_magick"
 gem 'carrierwave-qiniu', '~> 1.1.5'
 # If you need to use locales other than English
